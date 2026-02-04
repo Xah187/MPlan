@@ -1,0 +1,16 @@
+{
+  "Metadata": {
+    "title": "Mplan Group",
+    "description": "A leading holding company integrating technology, nutrition, and innovation."
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "companies": "Our Companies",
+    "contact": "Contact"
+  },
+  "Hero": {
+    "title": "Leading Investment Across Multiple Sectors",
+    "subtitle": "A diverse holding company leading innovation in Construction, Nutrition, IT, HR, and Digital Applications."
+  }
+}
