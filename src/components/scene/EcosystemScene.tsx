@@ -1,13 +1,25 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Environment, PerspectiveCamera, Stars, Float } from '@react-three/drei';
-import { Suspense, useMemo } from 'react';
+import { OrbitControls, Environment, PerspectiveCamera, Stars, Float, useTexture } from '@react-three/drei';
+import { Suspense, useMemo, useEffect } from 'react';
 import { companies } from '@/data/companies';
 import Satellite from './Satellite';
 import Nucleus from './Nucleus';
 
+// Preload common logos
+const preloadLogos = () => {
+    useTexture.preload('/logos/mplan.png');
+    companies.forEach(company => {
+        if (company.logo) useTexture.preload(company.logo);
+    });
+};
+
 export default function EcosystemScene() {
+    useEffect(() => {
+        preloadLogos();
+    }, []);
+
     const satellites = useMemo(() => {
         return companies.map((company, i) => {
             // Distribute in 3 orbits/layers
@@ -34,9 +46,15 @@ export default function EcosystemScene() {
     return (
         <div className="w-full h-screen absolute top-0 left-0 -z-10 bg-mplan-dark text-white">
             <Canvas dpr={[1, 2]}>
-                <Suspense fallback={null}>
-                    <PerspectiveCamera makeDefault position={[0, 10, 25]} fov={50} />
+                <PerspectiveCamera makeDefault position={[0, 10, 25]} fov={50} />
 
+                {/* Background stars and basic lighting should appear immediately */}
+                <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+                <ambientLight intensity={0.2} />
+                <pointLight position={[10, 10, 10]} intensity={1} color="#00f0ff" />
+                <pointLight position={[-10, -10, -10]} intensity={1} color="#D4AF37" />
+
+                <Suspense fallback={null}>
                     <OrbitControls
                         enableZoom={true}
                         enablePan={false}
@@ -48,15 +66,8 @@ export default function EcosystemScene() {
                         minDistance={10}
                     />
 
-                    <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
-
-                    <ambientLight intensity={0.2} />
-                    <pointLight position={[10, 10, 10]} intensity={1} color="#00f0ff" />
-                    <pointLight position={[-10, -10, -10]} intensity={1} color="#D4AF37" />
-
                     {/* Central Nucleus (Mplan Group) */}
                     <Nucleus />
-
 
                     {satellites}
 
