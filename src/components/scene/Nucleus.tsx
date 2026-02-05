@@ -9,7 +9,7 @@ export default function Nucleus() {
             {/* Core Logo using Billboard to prevent distortion */}
             <Billboard follow={true}>
                 <Image
-                    url="/logos/mplan.png"
+                    url="/logos/mplan-group-logo.png"
                     transparent
                     opacity={1}
                     scale={[4, 4]} // Adjust scale as needed

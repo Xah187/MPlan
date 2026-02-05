@@ -7,31 +7,228 @@
   --color-secondary: var(--secondary);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
-  --color-mplan-dark: #050505;
-  --color-mplan-blue: #0070f3;
-  --color-mplan-cyan: #00f0ff;
-  --color-mplan-gold: #D4AF37;
+
+  /* Mplan Brand Colors */
+  --color-mplan-maroon: #8B1D1E;
+  --color-mplan-maroon-light: #A82728;
+  --color-mplan-maroon-dark: #6B1516;
+  --color-mplan-charcoal: #1A1A1A;
+  --color-mplan-white: #FFFFFF;
+  --color-mplan-cream: #FAF9F7;
+  --color-mplan-gold: #B8860B;
+  --color-mplan-gold-light: #D4A84B;
 }
 
+/* Light Mode (Default) */
 :root {
-  --background: #050505;
-  --foreground: #ededed;
-  --primary: #00f0ff;
-  --secondary: #D4AF37;
+  --background: #FAF9F7;
+  --foreground: #1A1A1A;
+  --primary: #8B1D1E;
+  --primary-hover: #A82728;
+  --secondary: #B8860B;
+  --card-bg: #FFFFFF;
+  --card-border: rgba(139, 29, 30, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(139, 29, 30, 0.15);
+  --muted: #6B7280;
+  --accent-gradient: linear-gradient(135deg, #8B1D1E, #A82728);
+}
+
+/* Dark Mode */
+.dark {
+  --background: #1A1A1A;
+  --foreground: #FAF9F7;
+  --primary: #A82728;
+  --primary-hover: #C23435;
+  --secondary: #D4A84B;
+  --card-bg: #2A2A2A;
+  --card-border: rgba(168, 39, 40, 0.2);
+  --glass-bg: rgba(26, 26, 26, 0.8);
+  --glass-border: rgba(168, 39, 40, 0.2);
+  --muted: #9CA3AF;
+  --accent-gradient: linear-gradient(135deg, #A82728, #C23435);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  overflow-x: hidden; /* Prevent horizontal scroll from 3D elements initially */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Utilities */
+.logo-dark-contrast {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.8));
+}
+
+/* RTL Support */
+[dir="rtl"] body {
+  font-family: 'Cairo', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Selection */
+::selection {
+  background: var(--primary);
+  color: white;
+}
+
+.dark ::selection {
+  background: var(--primary);
+  color: #0F172A;
 }
 
 @layer utilities {
+
+  /* Glass Panel */
   .glass-panel {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
+
+  /* Card Style */
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .dark .card:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Button Styles */
+  .btn-primary {
+    background: var(--accent-gradient);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(8, 145, 178, 0.3);
+  }
+
+  .dark .btn-primary:hover {
+    box-shadow: 0 10px 30px rgba(34, 211, 238, 0.3);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--foreground);
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid var(--card-border);
+    cursor: pointer;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  /* Floating Shapes Animation */
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-20px) rotate(5deg);
+    }
+  }
+
+  @keyframes float-reverse {
+
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(20px) rotate(-5deg);
+    }
+  }
+
+  @keyframes pulse-soft {
+
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-float {
+    animation: float 8s ease-in-out infinite;
+  }
+
+  .animate-float-reverse {
+    animation: float-reverse 10s ease-in-out infinite;
+  }
+
+  .animate-pulse-soft {
+    animation: pulse-soft 4s ease-in-out infinite;
+  }
+
+  /* Blob Shapes */
+  .blob {
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    filter: blur(40px);
+    opacity: 0.5;
+  }
+
+  .dark .blob {
+    opacity: 0.3;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--card-border), transparent);
+  }
+
+  /* Text Muted */
+  .text-muted {
+    color: var(--muted);
   }
 }
